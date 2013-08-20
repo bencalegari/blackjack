@@ -7,6 +7,8 @@ class Blackjack
 
 
   def build_deck
+      @player_score = 0
+      @dealer_score = 0
       @deck = []
       @player=[]
       @dealer=[]
@@ -16,7 +18,7 @@ class Blackjack
         end
       end
       @shuffled_deck = @deck.shuffle
-    self.init
+      init
   end
 
 
@@ -24,13 +26,13 @@ class Blackjack
     2.times{@player << @shuffled_deck.pop }
     2.times{@dealer << @shuffled_deck.pop }
     
-    self.show_cards
+    show_cards
 
   end
 
 def show_cards
     @player.each{|card| print card, '   '}
-    self.turn
+    turn
 end
   
 
@@ -38,30 +40,37 @@ end
     print 'Hit (h) or Stay (s): '
     input = gets.chomp
     if input == 'h'
-      self.hit
+        hit
     elsif input == 's'  
-      self.show
+      dealer_plays
     else
       p 'invalid'
-      self.turn
+      turn
     end
   end
 
   def hit
     @player << @shuffled_deck.pop 
-    self.check
+    check(@player)
+  end
+
+  def dealer_plays
    
+    check(@dealer)
+    if @dealer_score < 17
+        @dealer << @shuffled_deck.pop 
+        dealer_plays
+    
+    elsif @dealer_score >= 17 && @dealer_score <= 21
+    
+    end     
+
   end
 
-  def stay
-  end
-
-  def check
-    sum = 0
+  def check(who)
+    
     array = []
-   
-   
-    @player.each do |x|
+    who.each do |x|
       if x.chr == 'J'
         array << 11
       elsif x.chr == 'Q'
@@ -71,18 +80,19 @@ end
       else
         array << x.to_i
       end
-    
     end
 
-    array.each{|x| sum += x}
-    p sum
-    p @player
-     p array
+    array.each do |x| 
+      if who == @player
+        @player_score += x
+      elsif who == @dealer
+        @dealer_score += x
+      end  
+      end  
+     
+    show_cards
+   
   end    
-
-      
-  
-
 end
 
 
