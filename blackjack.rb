@@ -19,11 +19,69 @@ class Blackjack
     self.init
   end
 
+
   def init
     2.times{@player << @shuffled_deck.pop }
     2.times{@dealer << @shuffled_deck.pop }
-   print @player
+    
+    self.show_cards
+
   end
+
+def show_cards
+    @player.each{|card| print card, '   '}
+    self.turn
+end
+  
+
+  def turn
+    print 'Hit (h) or Stay (s): '
+    input = gets.chomp
+    if input == 'h'
+      self.hit
+    elsif input == 's'  
+      self.show
+    else
+      p 'invalid'
+      self.turn
+    end
+  end
+
+  def hit
+    @player << @shuffled_deck.pop 
+    self.check
+   
+  end
+
+  def stay
+  end
+
+  def check
+    sum = 0
+    array = []
+   
+   
+    @player.each do |x|
+      if x.chr == 'J'
+        array << 11
+      elsif x.chr == 'Q'
+        array << 11
+      elsif x.chr == 'K'
+        array << 11
+      else
+        array << x.to_i
+      end
+    
+    end
+
+    array.each{|x| sum += x}
+    p sum
+    p @player
+     p array
+  end    
+
+      
+  
 
 end
 
