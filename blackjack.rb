@@ -71,11 +71,7 @@ end
     
     array = []
     who.each do |x|
-      if x.chr == 'J'
-        array << 11
-      elsif x.chr == 'Q'
-        array << 11
-      elsif x.chr == 'K'
+      if x.chr == 'J' || x.chr == 'K' || x.chr == 'Q'
         array << 11
       else
         array << x.to_i
@@ -89,7 +85,8 @@ end
         @dealer_score += x
       end  
       end  
-     
+    
+    p @player_score
     show_cards
    
   end    
