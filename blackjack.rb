@@ -19,42 +19,37 @@ class Blackjack
     @shuffled_deck = @deck.shuffle
     init
   end
+
   def init
     2.times{@player << @shuffled_deck.pop }
     2.times{@dealer << @shuffled_deck.pop }
     
-    show_cards(@player)
-
-
+    check(@player)
   end
 
   def show_cards(who)
-   if who == @player
-    puts "Player's hand:  "
-    puts @player 
-    turn
+    if who == @player 
+      puts "Player's hand:  "
+      puts @player 
+      puts "Player's score is #{@player_score}"
+      turn
     else
+      check(@dealer)
       puts "Dealer's hand:  "
       puts @dealer 
-      
-  end
-
-    # Can we use an optional argument to print Dealer/Player Score?
-    # We also need to change it so that after the first turn 
-    # it only shows the card that was dealt.
-   
+    end
   end
 
   
 
   def turn
+
     puts ''
     puts 'Hit (h) or Stay (s): '
     input = gets.chomp
     if input == 'h'
       hit
     elsif input == 's'  
-      show_cards(@dealer)
       dealer_plays
     else
       p 'invalid'
@@ -82,6 +77,9 @@ class Blackjack
 
   def check(who)
 
+    @player_score = 0
+    @dealer_score = 0
+
     array = []
     who.each do |x|
       if x.chr == 'J' || x.chr == 'K' || x.chr == 'Q'
@@ -99,7 +97,7 @@ class Blackjack
       end  
     end  
 
-      show_cards(who)
+    show_cards(who)
 
   end    
 end
