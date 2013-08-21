@@ -85,8 +85,7 @@ end
         @dealer_score += x
       end  
       end  
-    
-    p @player_score
+     
     show_cards
    
   end    
