@@ -1,24 +1,24 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 class Blackjack
-  
+
   SUITS = ['♠', '♣', '♥', '♦']
   VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
 
   def build_deck
-      @player_score = 0
-      @dealer_score = 0
-      @deck = []
-      @player=[]
-      @dealer=[]
-      SUITS.each do |suit|
-        VALUES.each do |value|
+    @player_score = 0
+    @dealer_score = 0
+    @deck = []
+    @player=[]
+    @dealer=[]
+    SUITS.each do |suit|
+      VALUES.each do |value|
         @deck.push(value + suit)
-        end
       end
-      @shuffled_deck = @deck.shuffle
-      init
+    end
+    @shuffled_deck = @deck.shuffle
+    init
   end
 
 
@@ -30,17 +30,24 @@ class Blackjack
 
   end
 
-def show_cards
-    @player.each{|card| print card, '   '}
+  def show_cards
+    @player.each do |card| 
+      puts 'Player was dealt:  ' + card
+    end
+    # Can we use an optional argument to print Dealer/Player Score?
+    # We also need to change it so that after the first turn 
+    # it only shows the card that was dealt.
     turn
-end
+  end
+
   
 
   def turn
-    print 'Hit (h) or Stay (s): '
+    puts ''
+    puts 'Hit (h) or Stay (s): '
     input = gets.chomp
     if input == 'h'
-        hit
+      hit
     elsif input == 's'  
       dealer_plays
     else
@@ -55,20 +62,20 @@ end
   end
 
   def dealer_plays
-   
+
     check(@dealer)
     if @dealer_score < 17
-        @dealer << @shuffled_deck.pop 
-        dealer_plays
-    
+      @dealer << @shuffled_deck.pop 
+      dealer_plays
+
     elsif @dealer_score >= 17 && @dealer_score <= 21
-    
+
     end     
 
   end
 
   def check(who)
-    
+
     array = []
     who.each do |x|
       if x.chr == 'J'
@@ -88,10 +95,10 @@ end
       elsif who == @dealer
         @dealer_score += x
       end  
-      end  
-     
+    end  
+
     show_cards
-   
+
   end    
 end
 
