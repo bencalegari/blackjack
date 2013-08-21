@@ -88,7 +88,7 @@ class Blackjack
     array = []
     who.each do |x|
       if x.chr == 'J' || x.chr == 'K' || x.chr == 'Q'
-        array << 11
+        array << 10
       else
         array << x.to_i
       end
