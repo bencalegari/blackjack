@@ -5,6 +5,7 @@ class Blackjack
   SUITS = ['♠', '♣', '♥', '♦']
   VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
+
   def build_deck
     @player_score = 0
     @dealer_score = 0
@@ -19,6 +20,8 @@ class Blackjack
     @shuffled_deck = @deck.shuffle
     init
   end
+
+
   def init
     2.times{@player << @shuffled_deck.pop }
     2.times{@dealer << @shuffled_deck.pop }
@@ -85,7 +88,7 @@ class Blackjack
     array = []
     who.each do |x|
       if x.chr == 'J' || x.chr == 'K' || x.chr == 'Q'
-        array << 10
+        array << 11
       else
         array << x.to_i
       end
