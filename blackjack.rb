@@ -15,7 +15,7 @@ class Blackjack
     build_deck
     deal_cards
     show_cards(@player)
-    turn
+    
   end
 
   def build_deck
@@ -39,6 +39,7 @@ class Blackjack
       puts "Player's hand:  "
       puts @player 
       puts "Player's score is #{score(@player)}"
+        
       turn
     else
       score(@dealer)
@@ -52,8 +53,8 @@ class Blackjack
   def turn
 
     if score(@player) > 21
-      puts 'You busted!'
-      return nil
+        puts 'You busted!'
+        return nil
     end
 
     puts ''
@@ -79,14 +80,15 @@ class Blackjack
   end
 
   def dealer_plays
-
+  
     score(@dealer)
     if score(@dealer) < 17
       hit(@dealer)
+      
       dealer_plays
 
     elsif score(@dealer) >= 17 && score(@dealer) <= 21
-      winning
+      winner
     end     
 
   end
@@ -115,17 +117,23 @@ class Blackjack
     end
 
     return hand_total
-    show_cards
-  end
-
+      show_cards
+ end
+ 
   def winner
+       p "your score: #{score(@player)}"
+        p "dealer score: #{score(@dealer)}"
+
       if score(@player) == score(@dealer)
         puts 'Tie game!'
+        
       elsif score(@player) < score(@dealer)
         puts 'Dealer wins!'
-      elsif score(@player) < score(@dealer)
+
+      elsif score(@player) > score(@dealer)
         puts 'Player wins!'      
       end
+  return nil
   end
 
 
