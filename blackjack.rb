@@ -5,37 +5,43 @@ class Blackjack
   SUITS = ['♠', '♣', '♥', '♦']
   VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
-
-  def build_deck
-    @player_score = 0
-    @dealer_score = 0
+  def initialize
+    # @player_score = 0
+    # @dealer_score = 0
     @deck = []
     @player=[]
     @dealer=[]
+
+    build_deck
+    deal_cards
+    show_cards(@player)
+    turn
+  end
+
+  def build_deck
     SUITS.each do |suit|
       VALUES.each do |value|
         @deck.push(value + suit)
       end
     end
-    @shuffled_deck = @deck.shuffle
-    init
+    @deck.shuffle!    
   end
 
-  def init
-    2.times{@player << @shuffled_deck.pop }
-    2.times{@dealer << @shuffled_deck.pop }
+  def deal_cards
+    2.times{@player << @deck.pop }
+    2.times{@dealer << @deck.pop }
     
-    check(@player)
+    score(@player)
   end
 
   def show_cards(who)
     if who == @player 
       puts "Player's hand:  "
       puts @player 
-      puts "Player's score is #{@player_score}"
+      puts "Player's score is #{score(@player)}"
       turn
     else
-      check(@dealer)
+      score(@dealer)
       puts "Dealer's hand:  "
       puts @dealer 
     end
@@ -45,11 +51,17 @@ class Blackjack
 
   def turn
 
+    if score(@player) > 21
+      puts 'You busted!'
+      return nil
+    end
+
     puts ''
     puts 'Hit (h) or Stay (s): '
+
     input = gets.chomp
     if input == 'h'
-      hit
+      hit(@player)
     elsif input == 's'  
       dealer_plays
     else
@@ -58,49 +70,75 @@ class Blackjack
     end
   end
 
-  def hit
-    @player << @shuffled_deck.pop 
-    check(@player)
+  def hit(user)
+    user << @deck.pop
+    # p @player 
+    # p score(@player)
+    score(user)
+    show_cards(user)
   end
 
   def dealer_plays
 
-    check(@dealer)
-    if @dealer_score < 17
-      @dealer << @shuffled_deck.pop 
+    score(@dealer)
+    if score(@dealer) < 17
+      hit(@dealer)
       dealer_plays
 
-    elsif @dealer_score >= 17 && @dealer_score <= 21
-
+    elsif score(@dealer) >= 17 && score(@dealer) <= 21
+      winning
     end     
 
   end
 
-  def check(who)
+  def score(who)
 
-    @player_score = 0
-    @dealer_score = 0
+    # @player_score = 0
+    # @dealer_score = 0
 
-    array = []
-    who.each do |x|
-      if x.chr == 'J' || x.chr == 'K' || x.chr == 'Q'
-        array << 11
-      else
-        array << x.to_i
-      end
+    who.sort_by!{ |card| VALUES.index(card.chop) }
+    
+    hand_total = 0
+    who.each do |card|
+      case card.chop
+      when ('2'..'10')
+        hand_total += card.chop.to_i
+      when 'J','Q','K'
+        hand_total += 10
+      when 'A'
+        if hand_total + 11 > 21
+          hand_total += 1
+        else
+          hand_total += 11
+        end
+      end    
     end
 
-    array.each do |x| 
-      if who == @player
-        @player_score += x
-      elsif who == @dealer
-        @dealer_score += x
-      end  
-    end  
+    return hand_total
+    show_cards
+  end
 
-    show_cards(who)
+  def winner
+      if score(@player) == score(@dealer)
+        puts 'Tie game!'
+      elsif score(@player) < score(@dealer)
+        puts 'Dealer wins!'
+      elsif score(@player) < score(@dealer)
+        puts 'Player wins!'      
+      end
+  end
 
-  end    
+
+  # hand_total.each do |x| 
+  #     if who == @player
+  #       @player_score += x
+  #     elsif who == @dealer
+  #       @dealer_score += x
+  #     end  
+  #   end
+  #   show_cards(who)
+
+
 end
 
 
@@ -108,8 +146,3 @@ game = Blackjack.new
 game.build_deck
 
 
-#deal two card out to player
-#store cards in player 1
-#show cards to player
-
-#choose hit or stay
