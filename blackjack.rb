@@ -80,15 +80,16 @@ class Blackjack
   end
 
   def dealer_plays
-  
-    score(@dealer)
-    if score(@dealer) < 17
-      hit(@dealer)
-      
-      dealer_plays
+  score(@dealer)
+    puts "Dealer score: #{score(@dealer)} "
 
+    if score(@dealer) < 17
+      hit(@dealer)      
+      dealer_plays
     elsif score(@dealer) >= 17 && score(@dealer) <= 21
       winner
+    elsif score(@dealer) > 21
+      puts 'WINNENNEIEIUEWOU'
     end     
 
   end
@@ -117,12 +118,15 @@ class Blackjack
     end
 
     return hand_total
-      show_cards
- end
+    show_cards
+  end
  
   def winner
-       p "your score: #{score(@player)}"
-        p "dealer score: #{score(@dealer)}"
+      puts ""
+      puts "------------------------------"
+      puts "Your score: #{score(@player)}"
+      puts ""
+      puts "Dealer score: #{score(@dealer)}"
 
       if score(@player) == score(@dealer)
         puts 'Tie game!'
