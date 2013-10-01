@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # encoding: UTF-8
 class Blackjack
 
@@ -6,8 +5,6 @@ class Blackjack
   VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
   def initialize
-    # @player_score = 0
-    # @dealer_score = 0
     @deck = []
     @player=[]
     @dealer=[]
@@ -48,8 +45,6 @@ class Blackjack
     end
   end
 
-  
-
   def turn
 
     if score(@player) > 21
@@ -80,6 +75,7 @@ class Blackjack
   end
 
   def dealer_plays
+    
   score(@dealer)
     puts "Dealer score: #{score(@dealer)} "
 
@@ -91,13 +87,9 @@ class Blackjack
     elsif score(@dealer) > 21
       puts 'WINNENNEIEIUEWOU'
     end     
-
   end
 
   def score(who)
-
-    # @player_score = 0
-    # @dealer_score = 0
 
     who.sort_by!{ |card| VALUES.index(card.chop) }
     
@@ -118,7 +110,7 @@ class Blackjack
     end
 
     return hand_total
-    show_cards
+    # show_cards
   end
  
   def winner
@@ -139,18 +131,6 @@ class Blackjack
       end
   return nil
   end
-
-
-  # hand_total.each do |x| 
-  #     if who == @player
-  #       @player_score += x
-  #     elsif who == @dealer
-  #       @dealer_score += x
-  #     end  
-  #   end
-  #   show_cards(who)
-
-
 end
 
 
