@@ -8,13 +8,10 @@ class Blackjack
     @deck = []
     @player=[]
     @dealer=[]
-
     build_deck
     deal_cards
-    show_cards(@player)
-    
+    show_cards(@player)    
   end
-
   def build_deck
     SUITS.each do |suit|
       VALUES.each do |value|
@@ -23,20 +20,16 @@ class Blackjack
     end
     @deck.shuffle!    
   end
-
   def deal_cards
     2.times{@player << @deck.pop }
-    2.times{@dealer << @deck.pop }
-    
+    2.times{@dealer << @deck.pop }   
     score(@player)
   end
-
   def show_cards(who)
     if who == @player 
       puts "Player's hand:  "
       puts @player 
       puts "Player's score is #{score(@player)}"
-        
       turn
     else
       score(@dealer)
@@ -46,15 +39,12 @@ class Blackjack
   end
 
   def turn
-
     if score(@player) > 21
         puts 'You busted!'
         return nil
     end
-
     puts ''
     puts 'Hit (h) or Stay (s): '
-
     input = gets.chomp
     if input == 'h'
       hit(@player)
@@ -65,34 +55,27 @@ class Blackjack
       turn
     end
   end
-
   def hit(user)
     user << @deck.pop
-    # p @player 
-    # p score(@player)
     score(user)
     show_cards(user)
   end
-
   def dealer_plays
     
   score(@dealer)
     puts "Dealer score: #{score(@dealer)} "
-
     if score(@dealer) < 17
       hit(@dealer)      
       dealer_plays
     elsif score(@dealer) >= 17 && score(@dealer) <= 21
       winner
     elsif score(@dealer) > 21
-      puts 'WINNENNEIEIUEWOU'
+      puts 'Dealer Busts'
+      puts 'Player wins!' 
     end     
   end
-
   def score(who)
-
     who.sort_by!{ |card| VALUES.index(card.chop) }
-    
     hand_total = 0
     who.each do |card|
       case card.chop
@@ -108,32 +91,26 @@ class Blackjack
         end
       end    
     end
-
     return hand_total
-    # show_cards
-  end
- 
+    show_cards
+  end 
+
   def winner
       puts ""
       puts "------------------------------"
       puts "Your score: #{score(@player)}"
       puts ""
       puts "Dealer score: #{score(@dealer)}"
-
       if score(@player) == score(@dealer)
         puts 'Tie game!'
-        
       elsif score(@player) < score(@dealer)
         puts 'Dealer wins!'
-
       elsif score(@player) > score(@dealer)
         puts 'Player wins!'      
       end
   return nil
   end
 end
-
-
 game = Blackjack.new
 game.build_deck
 
